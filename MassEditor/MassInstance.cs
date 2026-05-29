@@ -12,6 +12,15 @@ namespace MassEditor
 	[HarmonyPatch]
 	public class MassInstance
 	{
+		public event EventHandler<SpawnRequirementEventArgs> DeathFloorAttemptingSpawn;
+
+		private bool? OnDeathFloorAttemptingSpawn(SpawnRequirementEventArgs e)
+		{
+			DeathFloorAttemptingSpawn?.Invoke(this, e);
+
+			return e.AllowSpawn;
+		}
+		
 		public float Height
 		{
 			get => _height;

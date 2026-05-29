@@ -141,7 +141,6 @@ namespace MassEditor
 		{
 			var massInstance = Create(type);
 			
-			
 			massInstance.UpDirection = up;
 			massInstance.MoveDirection = moveDirection;
 			

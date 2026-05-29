@@ -108,6 +108,8 @@ namespace MassEditor
 				}
 				
 				if (!hasGamemode && spawnSettings.SpawnGamemodes.Count > 0 && canSpawn) canSpawn = false;
+				
+				// If there are only gamemode requirements, and it has been met, can spawn
 				else if (spawnSettings.SpawnLevels.Count + spawnSettings.SpawnRegions.Count +
 				         spawnSettings.SpawnSubregions.Count == 0 && hasGamemode) canSpawn = true;
 				

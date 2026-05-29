@@ -56,8 +56,6 @@ namespace MassEditor
 		public Plane PlaneInstance => new Plane(DeathFloorInstance.transform.up, DeathFloorInstance.transform.position);
 
 		public DEN_DeathFloor DeathFloorInstance { get; }
-
-		public bool EntityMoves = true;
 		
 		public SpawnSettings spawnSettings;
 

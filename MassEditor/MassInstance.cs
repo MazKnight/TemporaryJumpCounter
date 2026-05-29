@@ -117,6 +117,11 @@ namespace MassEditor
 					return;
 				}
 				
+				// Gives external mods an opportunity to force the mass wall to spawn and/or to prevent it from spawning.
+				var eventArgs = new SpawnRequirementEventArgs();
+				var overrideSpawn = OnDeathFloorAttemptingSpawn(eventArgs);
+				if (overrideSpawn.HasValue) canSpawn = overrideSpawn.Value;
+				
 				DeathFloorInstance.gameObject.SetActive(canSpawn);
 				
 				Debug.Log(canSpawn);

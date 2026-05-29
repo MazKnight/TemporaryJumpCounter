@@ -107,6 +107,8 @@ namespace MassEditor
 					}
 				}
 				
+				
+				// If there is more than one gamemode requirement, and it has not been met, cannot spawn
 				if (!hasGamemode && spawnSettings.SpawnGamemodes.Count > 0 && canSpawn) canSpawn = false;
 				
 				// If there are only gamemode requirements, and it has been met, can spawn

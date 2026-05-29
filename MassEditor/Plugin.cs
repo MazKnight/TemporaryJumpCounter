@@ -33,26 +33,7 @@ namespace MassEditor
 		[HarmonyPatch(typeof(CL_GameManager), "Awake")]
 		public static void CreateDeathGoo(CL_GameManager __instance)
 		{
-			if (CL_GameManager.gamemode == null) return;
-			
-			// var instance = MassInstance.Create(new Vector3(-0.5f, 0.5f, 0), new Vector3(-1f, 0, 0f));
-			// instance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Abyss_Endless"));
-			// instance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Abyss_Campaign"));
-			//
-			// var instance2 = MassInstance.Create(new Vector3(-1f, 0, 0f));
-			// instance2.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Abyss_Endless"));
-			// instance2.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Abyss_Campaign"));
-
-			// foreach (var i in instance2.spawnSettings.SpawnRegions)
-			// {
-			// 	if (i == null)
-			// 	{
-			// 		Debug.Log("null");
-			// 		continue;
-			// 	}
-			// 	
-			// 	Debug.Log(i.name);
-			// }
+			if (!CL_GameManager.IsInGame()) return;
 
 			var massInstance = MassInstance.Create(Vector3.up, 28f);
 			

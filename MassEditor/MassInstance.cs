@@ -130,7 +130,7 @@ namespace MassEditor
 			}
 			catch
 			{
-				Debug.LogWarning("Checking for spawn plausibility has failed.");
+				Debug.LogWarning("Checking for spawn plausibility has failed. Exception: " + e.GetType().Name + " Message: " + e.Message);
 			}
 		}
 

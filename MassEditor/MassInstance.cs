@@ -236,6 +236,8 @@ namespace MassEditor
 		{
 			DeathFloorInstance = deathFloor;
 			spawnSettings = new SpawnSettings();
+
+			ID = MassController.GetMassController().GetNextAvailableID();
 		}
 		
 		#region Movement

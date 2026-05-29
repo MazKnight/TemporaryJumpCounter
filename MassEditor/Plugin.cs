@@ -31,7 +31,7 @@ namespace MassEditor
 
 		[HarmonyPrefix]
 		[HarmonyPatch(typeof(CL_GameManager), "Awake")]
-		public static void CreateDeathGoo()
+		public static void CreateDeathGoo(CL_GameManager __instance)
 		{
 			if (CL_GameManager.gamemode == null) return;
 			

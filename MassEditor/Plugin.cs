@@ -29,7 +29,7 @@ namespace MassEditor
 	public class Transpilation
 	{
 
-		[HarmonyPrefix]
+		[HarmonyPostfix]
 		[HarmonyPatch(typeof(CL_GameManager), "Awake")]
 		public static void CreateDeathGoo(CL_GameManager __instance)
 		{

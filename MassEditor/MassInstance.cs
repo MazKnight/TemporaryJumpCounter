@@ -58,6 +58,8 @@ namespace MassEditor
 		public DEN_DeathFloor DeathFloorInstance { get; }
 		
 		public SpawnSettings spawnSettings;
+		
+		public int ID { get; }
 
 		public float GetPlayerDistance() => PlaneInstance.GetDistanceToPoint(ENT_Player.playerObject.transform.position);
 		

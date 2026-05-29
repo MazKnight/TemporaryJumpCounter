@@ -474,6 +474,32 @@ namespace MassEditor
 			Debug.Log("Current Subregion: " + CL_EventManager.currentSubregion);
 			Debug.Log("Current Gamemode: " + CL_GameManager.gamemode);
 		}
+
+		[HarmonyTranspiler]
+		[HarmonyPatch(typeof(DEN_DeathFloor), "Start")]
+		public static IEnumerable<CodeInstruction> RemoveOriginalCommands(IEnumerable<CodeInstruction> instructions,
+			ILGenerator generator)
+		{
+			var matcher = new CodeMatcher(instructions, generator);
+
+			matcher.Start().MatchEndForward(
+				new CodeMatch(OpCodes.Stfld),
+				new CodeMatch(OpCodes.Ldstr, "deathgoo-stop")
+			);
+
+			var beginningPosition = matcher.Pos;
+			
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Ldstr, "BEGONE"),
+			new CodeMatch(OpCodes.Callvirt),
+			new CodeMatch(OpCodes.Pop)
+			);
+
+			var endingPosition = matcher.Pos;
+			
+			matcher.RemoveInstructionsInRange(beginningPosition, endingPosition);
+			return matcher.InstructionEnumeration();
+		}
 		
 		#endregion
 	}

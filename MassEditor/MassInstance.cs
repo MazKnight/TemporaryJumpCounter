@@ -21,7 +21,6 @@ namespace MassEditor
 	public class MassInstance
 	{
 		public event EventHandler<SpawnRequirementEventArgs> DeathFloorAttemptingSpawn;
-
 		private bool? OnDeathFloorAttemptingSpawn(SpawnRequirementEventArgs e)
 		{
 			DeathFloorAttemptingSpawn?.Invoke(this, e);
@@ -42,7 +41,6 @@ namespace MassEditor
 				_height = value;
 			}
 		}
-
 		private float _height = 0;
 
 		public Vector3 UpDirection
@@ -50,7 +48,6 @@ namespace MassEditor
 			get => DeathFloorInstance.gameObject.transform.up;
 			set => DeathFloorInstance.gameObject.transform.up = value;
 		}
-
 		public Vector3 MoveDirection = Vector3.up;
 
 		public Plane PlaneInstance => new Plane(DeathFloorInstance.transform.up, DeathFloorInstance.transform.position);

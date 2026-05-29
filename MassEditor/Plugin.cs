@@ -45,7 +45,7 @@ namespace MassEditor
 
 			__instance.allowScores = false;
 		}
-
+		
 		[HarmonyPostfix]
 		[HarmonyPatch(typeof(CL_GameManager), "AreAchievementsAllowed")]
 		public static void DenyAchievements(ref bool __result) => __result = false;

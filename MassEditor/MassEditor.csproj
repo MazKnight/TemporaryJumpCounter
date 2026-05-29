@@ -442,6 +442,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="cloner.cs" />
+        <Compile Include="CommandHandler.cs" />
         <Compile Include="MassController.cs" />
         <Compile Include="MassInstance.cs" />
         <Compile Include="Plugin.cs" />

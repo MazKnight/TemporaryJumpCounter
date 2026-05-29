@@ -113,7 +113,7 @@ namespace MassEditor
 
 				if (spawnSettings.SpawnGamemodes.Count > 0 && !hasGamemode)
 				{
-					Cloner.DestroyGameObject(DeathFloorInstance.gameObject);
+					Delete();
 					return;
 				}
 				

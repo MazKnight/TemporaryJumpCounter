@@ -9,6 +9,14 @@ using UnityEngine.Serialization;
 
 namespace MassEditor
 {
+	public class SpawnRequirementEventArgs
+	{
+		/// <summary>
+		/// Should be left as null if regular spawning patterns are desired.
+		/// </summary>
+		public bool? AllowSpawn = null;
+	}
+	
 	[HarmonyPatch]
 	public class MassInstance
 	{

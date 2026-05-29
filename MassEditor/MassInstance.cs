@@ -134,6 +134,13 @@ namespace MassEditor
 			}
 		}
 
+		/// <summary>
+		/// Creates a manipulatable instance of DeathFloor
+		/// </summary>
+		/// <param name="up">The direction that the death floor will be facing. Also used for the direction that it moves</param>
+		/// <param name="distanceAtStart">How far away from the player the death floor should be upon being spawned in</param>
+		/// <param name="type">What type of death floor this is. Purely used to change the material and texture.</param>
+		/// <returns></returns>
 		public static MassInstance Create(Vector3 up, float distanceAtStart = 16f,
 			DeathFloorType type = DeathFloorType.Normal) => Create(up, up, distanceAtStart, type);
 		

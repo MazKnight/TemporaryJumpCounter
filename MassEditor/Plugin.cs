@@ -15,7 +15,7 @@ namespace MassEditor
 	{
 		private const string pluginGuid = "mazknight.whiteknuckle.DeathFloorEditor";
 		public const string pluginName = "DeathFloorEditor";
-		public const string pluginVersion = "0.1.0";
+		public const string pluginVersion = "0.1.1";
 		
 		Harmony harmony = new Harmony(pluginGuid);
 

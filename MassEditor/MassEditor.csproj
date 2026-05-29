@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{209116BB-AF2B-4562-A63F-4BF48FB51C7E}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>MassEditor</RootNamespace>
+        <AssemblyName>MassEditor</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="0Harmony">
+          <HintPath>..\..\White Knuckle mod\Libraries\0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="ALINE">
+          <HintPath>..\..\White Knuckle mod\Libraries\ALINE.dll</HintPath>
+        </Reference>
+        <Reference Include="andywiecko.BurstTriangulator">
+          <HintPath>..\..\White Knuckle mod\Libraries\andywiecko.BurstTriangulator.dll</HintPath>
+        </Reference>
+        <Reference Include="Assembly-CSharp">
+          <HintPath>..\..\White Knuckle mod\Libraries\Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="AstarPathfindingProject">
+          <HintPath>..\..\White Knuckle mod\Libraries\AstarPathfindingProject.dll</HintPath>
+        </Reference>
+        <Reference Include="BakeryAPV">
+          <HintPath>..\..\White Knuckle mod\Libraries\BakeryAPV.dll</HintPath>
+        </Reference>
+        <Reference Include="BakeryECS">
+          <HintPath>..\..\White Knuckle mod\Libraries\BakeryECS.dll</HintPath>
+        </Reference>
+        <Reference Include="BakeryRuntimeAssembly">
+          <HintPath>..\..\White Knuckle mod\Libraries\BakeryRuntimeAssembly.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx">
+          <HintPath>..\..\White Knuckle mod\Libraries\BepInEx.dll</HintPath>
+        </Reference>
+        <Reference Include="Clipper2Lib">
+          <HintPath>..\..\White Knuckle mod\Libraries\Clipper2Lib.dll</HintPath>
+        </Reference>
+        <Reference Include="Coffee.SoftMaskForUGUI">
+          <HintPath>..\..\White Knuckle mod\Libraries\Coffee.SoftMaskForUGUI.dll</HintPath>
+        </Reference>
+        <Reference Include="Coffee.SoftMaskForUGUI.R">
+          <HintPath>..\..\White Knuckle mod\Libraries\Coffee.SoftMaskForUGUI.R.dll</HintPath>
+        </Reference>
+        <Reference Include="DarkMachineUI">
+          <HintPath>..\..\White Knuckle mod\Libraries\DarkMachineUI.dll</HintPath>
+        </Reference>
+        <Reference Include="DOTween">
+          <HintPath>..\..\White Knuckle mod\Libraries\DOTween.dll</HintPath>
+        </Reference>
+        <Reference Include="Drawing">
+          <HintPath>..\..\White Knuckle mod\Libraries\Drawing.dll</HintPath>
+        </Reference>
+        <Reference Include="Facepunch.Steamworks.Win64">
+          <HintPath>..\..\White Knuckle mod\Libraries\Facepunch.Steamworks.Win64.dll</HintPath>
+        </Reference>
+        <Reference Include="Febucci.Attributes.Runtime">
+          <HintPath>..\..\White Knuckle mod\Libraries\Febucci.Attributes.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Febucci.TextAnimator.Runtime">
+          <HintPath>..\..\White Knuckle mod\Libraries\Febucci.TextAnimator.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Febucci.TextAnimator.TMP.Runtime">
+          <HintPath>..\..\White Knuckle mod\Libraries\Febucci.TextAnimator.TMP.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Mono.Security">
+          <HintPath>..\..\White Knuckle mod\Libraries\Mono.Security.dll</HintPath>
+        </Reference>
+        <Reference Include="mscorlib">
+          <HintPath>..\..\White Knuckle mod\Libraries\mscorlib.dll</HintPath>
+        </Reference>
+        <Reference Include="netstandard">
+          <HintPath>..\..\White Knuckle mod\Libraries\netstandard.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\White Knuckle mod\Libraries\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="PackageTools">
+          <HintPath>..\..\White Knuckle mod\Libraries\PackageTools.dll</HintPath>
+        </Reference>
+        <Reference Include="Pathfinding.Ionic.Zip.Reduced">
+          <HintPath>..\..\White Knuckle mod\Libraries\Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+        </Reference>
+        <Reference Include="PrefabBaker">
+          <HintPath>..\..\White Knuckle mod\Libraries\PrefabBaker.dll</HintPath>
+        </Reference>
+        <Reference Include="SeppePeelman.EditorTools.SurfaceAlignTool">
+          <HintPath>..\..\White Knuckle mod\Libraries\SeppePeelman.EditorTools.SurfaceAlignTool.dll</HintPath>
+        </Reference>
+        <Reference Include="Sirenix.OdinInspector.Attributes">
+          <HintPath>..\..\White Knuckle mod\Libraries\Sirenix.OdinInspector.Attributes.dll</HintPath>
+        </Reference>
+        <Reference Include="Sirenix.OdinInspector.Modules.Unity.Addressables">
+          <HintPath>..\..\White Knuckle mod\Libraries\Sirenix.OdinInspector.Modules.Unity.Addressables.dll</HintPath>
+        </Reference>
+        <Reference Include="Sirenix.Serialization">
+          <HintPath>..\..\White Knuckle mod\Libraries\Sirenix.Serialization.dll</HintPath>
+        </Reference>
+        <Reference Include="Sirenix.Serialization.Config">
+          <HintPath>..\..\White Knuckle mod\Libraries\Sirenix.Serialization.Config.dll</HintPath>
+        </Reference>
+        <Reference Include="Sirenix.Utilities">
+          <HintPath>..\..\White Knuckle mod\Libraries\Sirenix.Utilities.dll</HintPath>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="Unity.Addressables">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Addressables.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Burst">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Burst.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Burst.Unsafe">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Burst.Unsafe.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Collections">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Collections.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Collections.LowLevel.ILSupport">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Deformations">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Deformations.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Entities">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Entities.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Entities.Hybrid">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Entities.Hybrid.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Entities.Hybrid.HybridComponents">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Entities.Hybrid.HybridComponents.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Entities.UI">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Entities.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.InputSystem">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.InputSystem.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.InputSystem.ForUI">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.InputSystem.ForUI.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.InputSystem.InGameHints">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.InputSystem.InGameHints.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.InternalAPIEngineBridge.002">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.InternalAPIEngineBridge.002.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Mathematics">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Mathematics.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Mathematics.Extensions">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Mathematics.Extensions.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Mathematics.Extensions.Hybrid">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Mathematics.Extensions.Hybrid.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.MemoryProfiler">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.MemoryProfiler.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Postprocessing.Runtime">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Postprocessing.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Profiling.Core">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Profiling.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.ResourceManager">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.ResourceManager.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Scenes">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Scenes.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.ScriptableBuildPipeline">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.ScriptableBuildPipeline.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Serialization">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Serialization.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Splines">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Splines.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.TextMeshPro">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.TextMeshPro.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Timeline">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Timeline.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Transforms">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Transforms.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Transforms.Hybrid">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.Transforms.Hybrid.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.VisualScripting.Core">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.VisualScripting.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.VisualScripting.Flow">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.VisualScripting.Flow.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.VisualScripting.State">
+          <HintPath>..\..\White Knuckle mod\Libraries\Unity.VisualScripting.State.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AccessibilityModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.AccessibilityModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AIModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.AIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AndroidJNIModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.AndroidJNIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AnimationModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.AnimationModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ARModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ARModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AssetBundleModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.AssetBundleModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.AudioModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ClothModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ClothModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ClusterInputModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ClusterInputModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ClusterRendererModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ClusterRendererModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ContentLoadModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ContentLoadModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CrashReportingModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.CrashReportingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.DirectorModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.DirectorModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.DSPGraphModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.DSPGraphModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.GameCenterModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.GameCenterModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.GIModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.GIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.GridModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.GridModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.HotReloadModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.HotReloadModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ImageConversionModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ImageConversionModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.IMGUIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.InputModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.JSONSerializeModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.JSONSerializeModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.LocalizationModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.LocalizationModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.NVIDIAModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.NVIDIAModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ParticleSystemModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ParticleSystemModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.PerformanceReportingModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.PerformanceReportingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.Physics2DModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.Physics2DModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.PhysicsModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.PhysicsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ProfilerModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ProfilerModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.PropertiesModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.PropertiesModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ScreenCaptureModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.ScreenCaptureModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.SharedInternalsModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.SharedInternalsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.SpriteMaskModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.SpriteMaskModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.SpriteShapeModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.SpriteShapeModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.StreamingModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.StreamingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.SubstanceModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.SubstanceModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.SubsystemsModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.SubsystemsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TerrainModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.TerrainModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TerrainPhysicsModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextCoreFontEngineModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextCoreTextEngineModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TilemapModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.TilemapModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TLSModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.TLSModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UIElementsModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UIElementsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UIModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UmbraModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UmbraModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityAnalyticsModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityConnectModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityConnectModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityCurlModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityCurlModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityTestProtocolModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityWebRequestModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.VehiclesModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.VehiclesModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.VFXModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.VFXModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.VideoModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.VideoModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.VirtualTexturingModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.VirtualTexturingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.VRModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.VRModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.WindModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.WindModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.XRModule">
+          <HintPath>..\..\White Knuckle mod\Libraries\UnityEngine.XRModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="cloner.cs" />
+        <Compile Include="MassController.cs" />
+        <Compile Include="MassInstance.cs" />
+        <Compile Include="Plugin.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="TranspilerTools.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="App.config" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <PropertyGroup>
+      <PostBuildEvent>copy "C:\Users\timeo_ltpvod3\RiderProjects\White knuckle mod try 2\MassEditor\bin\Debug\MassEditor.dll" "C:\Program Files (x86)\Steam\steamapps\common\White Knuckle\BepInEx\plugins"</PostBuildEvent>
+    </PropertyGroup>
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>

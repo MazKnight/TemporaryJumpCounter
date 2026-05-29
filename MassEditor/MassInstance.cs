@@ -1,0 +1,480 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
+using HarmonyLib;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+
+namespace MassEditor
+{
+	[HarmonyPatch]
+	public class MassInstance
+	{
+		public float Height
+		{
+			get => _height;
+			set
+			{
+				DeathFloorInstance.transform.position += MoveDirection.normalized * (value - _height);
+
+				DeathFloorInstance.transform.position =
+					PlaneInstance.ClosestPointOnPlane(ENT_Player.playerObject.transform.position);
+
+				_height = value;
+			}
+		}
+
+		private float _height = 0;
+
+		public Vector3 UpDirection
+		{
+			get => DeathFloorInstance.gameObject.transform.up;
+			set => DeathFloorInstance.gameObject.transform.up = value;
+		}
+
+		public Vector3 MoveDirection = Vector3.up;
+
+		public Plane PlaneInstance => new Plane(DeathFloorInstance.transform.up, DeathFloorInstance.transform.position);
+
+		public DEN_DeathFloor DeathFloorInstance { get; }
+
+		public bool EntityMoves = true;
+		
+		public SpawnSettings spawnSettings;
+
+		public float GetPlayerDistance() => PlaneInstance.GetDistanceToPoint(ENT_Player.playerObject.transform.position);
+		
+		public float GetHeight() => Height;
+
+		public float GetRelativeHeight() => -GetPlayerDistance();
+
+		public void CheckIfCanSpawn()
+		{
+			try
+			{
+				var canSpawn = false;
+
+				foreach (var i in spawnSettings.SpawnLevels)
+				{
+					// Debug.Log(i.name);
+					// Debug.Log(CL_EventManager.currentLevel.name);
+					// Debug.Log("---");
+					
+					if (i.name == CL_EventManager.currentLevel.name || canSpawn)
+					{
+						canSpawn = true;
+						break;
+					}
+				}
+				
+				foreach (var i in spawnSettings.SpawnRegions)
+				{
+					// Debug.Log(i.name);
+					// Debug.Log(CL_EventManager.currentRegion.name);
+					// Debug.Log("---");
+					if (i.name == CL_EventManager.currentRegion.name || canSpawn)
+					{
+						canSpawn = true;
+						break;
+					}
+				}
+				
+				foreach (var i in spawnSettings.SpawnSubregions)
+				{
+					// Debug.Log(i.name);
+					// Debug.Log(CL_EventManager.currentSubregion.name);
+					// Debug.Log("---");
+					if (i.name == CL_EventManager.currentSubregion.name || canSpawn)
+					{
+						canSpawn = true;
+						break;
+					}
+				}
+				
+				var hasGamemode = false;
+				
+				foreach (var i in spawnSettings.SpawnGamemodes)
+				{
+					// Debug.Log(i.name);
+					// Debug.Log(CL_GameManager.GetCurrentGamemode());
+					// Debug.Log("---");
+					if (i.name == CL_GameManager.GetCurrentGamemode().name)
+					{
+						hasGamemode = true;
+						break;
+					}
+				}
+				
+				if (!hasGamemode && spawnSettings.SpawnGamemodes.Count > 0 && canSpawn) canSpawn = false;
+				else if (spawnSettings.SpawnLevels.Count + spawnSettings.SpawnRegions.Count +
+				         spawnSettings.SpawnSubregions.Count == 0 && hasGamemode) canSpawn = true;
+
+				if (spawnSettings.SpawnGamemodes.Count > 0 && !hasGamemode)
+				{
+					Cloner.DestroyGameObject(DeathFloorInstance.gameObject);
+					return;
+				}
+				
+				DeathFloorInstance.gameObject.SetActive(canSpawn);
+				DeathFloorInstance.SetActive(canSpawn);
+
+				foreach (Transform transform in DeathFloorInstance.gameObject.transform)
+				{
+					transform.gameObject.SetActive(canSpawn);
+				}
+				
+				Debug.Log(canSpawn);
+				
+			}
+			catch
+			{
+				Debug.LogWarning("Checking for spawn plausibility has failed.");
+			}
+		}
+
+		public static MassInstance Create(Vector3 up, float distanceAtStart = 16f,
+			DeathFloorType type = DeathFloorType.Normal) => Create(up, up, distanceAtStart, type);
+		public static MassInstance Create(Vector3 up, Vector3 moveDirection, float distanceAtStart = 16f,
+			DeathFloorType type = DeathFloorType.Normal)
+		{
+			var massInstance = Create(type);
+			
+			
+			massInstance.UpDirection = up;
+			massInstance.MoveDirection = moveDirection;
+			
+			massInstance.DeathFloorInstance.transform.position = ENT_Player.playerObject.transform.position - moveDirection.normalized * distanceAtStart;
+			
+			return massInstance;
+		}
+		private static MassInstance Create(DeathFloorType type)
+		{
+			var database = CL_AssetManager.GetFullCombinedAssetDatabase().entityPrefabs;
+			string name = "Denizen_Death_Floor";
+
+			switch (type)
+			{
+				case  DeathFloorType.Holiday:
+					name += "_Holiday";
+					break;
+				case  DeathFloorType.Training:
+					name += "_Training";
+					break;
+			}
+
+			GameObject gameObject = null;
+			foreach (var i in database)
+			{
+				if (i.name.Equals(name))
+				{
+					gameObject = Cloner.CloneGameObject(i);
+				}
+			}
+
+			if (gameObject == null)
+			{
+				throw new KeyNotFoundException("The stated type has not been found!");
+			}
+			
+			gameObject.SetActive(true);
+			
+			var massController = MassController.GetMassController();
+			var massInstance = new MassInstance(gameObject.GetComponent<DEN_DeathFloor>());
+			
+			massController.massInstances.Add(massInstance);
+			if (massController.massInstances.Count > 1) massInstance.DeathFloorInstance.setCorruptionHeight = false;
+			
+			return massInstance;
+		}
+
+		public void Delete()
+		{
+			MassController.GetMassController().massInstances.Remove(this);
+			
+			Cloner.DestroyGameObject(DeathFloorInstance.gameObject);
+		}
+		
+		private MassInstance(DEN_DeathFloor deathFloor)
+		{
+			DeathFloorInstance = deathFloor;
+			spawnSettings = new SpawnSettings();
+		}
+		
+		#region Movement
+		
+		public void MoveToHeightSequence(float amount)
+		{
+			Debug.Log(amount);
+		}
+		
+		public void RaiseOverTimeRoutine(float amount)
+		{
+			Debug.Log(amount);
+		}
+
+		public void MoveFloor(float amount)
+		{
+			// if (!DoesMove) return;
+			
+			// Debug.Log(GetPlayerDistance());
+			
+			Height += amount;
+		}
+		
+		#endregion
+		
+		#region Subclasses
+		public class SpawnSettings
+		{
+			public List<M_Level> SpawnLevels = new List<M_Level>();
+			public List<M_Region> SpawnRegions = new List<M_Region>();
+			public List<M_Subregion> SpawnSubregions = new List<M_Subregion>();
+			public List<M_Gamemode> SpawnGamemodes = new List<M_Gamemode>();
+		}
+
+		public enum DeathFloorType
+		{
+			Normal,
+			Holiday,
+			Training
+		}
+		#endregion
+		
+		#region Patches
+		[HarmonyPostfix]
+		[HarmonyPatch(typeof(DEN_DeathFloor), "Start")]
+		private static void Edit(DEN_DeathFloor __instance)
+		{
+			var massInstance = MassController.GetMassController().GetInstanceFromDeathFloor(__instance);
+			
+			if (massInstance == null)
+			{
+				Cloner.DestroyGameObject(__instance.gameObject);
+				return;
+			}
+			
+			massInstance.CheckIfCanSpawn();
+		}
+		
+		[HarmonyDebug]
+		[HarmonyTranspiler]
+		[HarmonyPatch(typeof(DEN_DeathFloor), "Update")]
+		public static IEnumerable<CodeInstruction> UpdateEditor(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+		{
+			var matcher = new CodeMatcher(instructions, generator);
+			
+			#region Fix Player Distance
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Call),
+				new CodeMatch(OpCodes.Callvirt),
+				new CodeMatch(OpCodes.Ldfld),
+				new CodeMatch(OpCodes.Ldarg_0)
+			).ThrowIfInvalid("WHYYYYYY");
+
+			matcher.Advance(-4);
+
+			matcher.RemoveInstructions(11);
+
+			matcher.Insert(
+				CodeInstruction.Call(typeof(MassController), "GetMassController"),
+				new CodeInstruction(OpCodes.Ldarg_0),
+				CodeInstruction.Call(typeof(MassController), "GetInstanceFromDeathFloor"),
+				CodeInstruction.Call(typeof(MassInstance), "GetPlayerDistance")
+			);
+			
+			// TranspilerTools.DebugSurroundingPosition(matcher, 10);
+			
+			#endregion
+			
+			#region Fix movement
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Ldloca_S),
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Ldfld),
+				new CodeMatch(OpCodes.Callvirt),
+				new CodeMatch(OpCodes.Callvirt),
+				new CodeMatch(OpCodes.Ldfld)
+			).ThrowIfInvalid("WHYYYYYY");
+
+			matcher.Advance(-5);
+			var pos = matcher.Pos;
+
+			matcher.RemoveInstructions(18);
+			
+			// TranspilerTools.DebugSurroundingPosition(matcher, 10);
+
+			matcher.Insert(
+				CodeInstruction.Call(typeof(MassController), "GetMassController"),
+				new CodeInstruction(OpCodes.Ldarg_0),
+				CodeInstruction.Call(typeof(MassController), "GetInstanceFromDeathFloor")
+			);
+
+			matcher.Advance(6);
+			matcher.RemoveInstructions(6);
+			matcher.Insert(CodeInstruction.Call(typeof(MassInstance), "MoveFloor"));
+			
+			matcher.Advance(1);
+			var code = matcher.CreateLabel(out Label label);
+
+			matcher.Advance(pos - 1 - matcher.Pos);
+
+			matcher.Operand = label;
+			
+			// TranspilerTools.DebugSurroundingPosition(matcher, 10);
+			
+			#endregion
+			
+			matcher.Advance(-matcher.Pos);
+			
+			#region Fix kill requirements
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Ldfld),
+				new CodeMatch(OpCodes.Brfalse),
+				new CodeMatch(OpCodes.Ldarg_0)
+				).ThrowIfInvalid("WHYYYYYY");
+
+			matcher.RemoveInstructions(5);
+			matcher.Insert(
+				CodeInstruction.Call(typeof(MassController), "GetMassController"),
+				new CodeInstruction(OpCodes.Ldarg_0),
+				CodeInstruction.Call(typeof(MassController), "GetInstanceFromDeathFloor"),
+				CodeInstruction.Call(typeof(MassInstance), "GetPlayerDistance")
+			);
+
+			matcher.Advance(4);
+			matcher.RemoveInstructions(6);
+
+			matcher.Insert(new CodeInstruction(OpCodes.Ldc_R4, -1f));
+			
+			// TranspilerTools.DebugSurroundingPosition(matcher, 10);
+			
+			#endregion
+        
+			matcher.Advance(-matcher.Pos);
+			
+			#region Fix Player start height
+			
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Callvirt),
+				new CodeMatch(OpCodes.Stloc_0),
+			new CodeMatch(OpCodes.Ldarg_0),
+			new CodeMatch(OpCodes.Ldfld),
+			new CodeMatch(OpCodes.Brtrue),
+			new CodeMatch(OpCodes.Ldsfld)
+				).ThrowIfInvalid("Cannot find CL_GameManager.gMan.GetPlayerCorrectedHeight()");
+
+			matcher.RemoveInstructions(2);
+			
+			matcher.Insert(
+				CodeInstruction.Call(typeof(MassController), "GetMassController"),
+				new CodeInstruction(OpCodes.Ldarg_0),
+				CodeInstruction.Call(typeof(MassController), "GetInstanceFromDeathFloor"),
+				CodeInstruction.Call(typeof(MassInstance), "GetPlayerDistance")
+			);
+			
+			#endregion
+			
+			return matcher.InstructionEnumeration();
+		}
+		
+		[HarmonyPostfix]
+		[HarmonyPatch(typeof(DEN_DeathFloor), "Update")]
+		public static void CancelFX()
+		{
+			FXManager.fxMan.corruptionHeight = -10000f;
+		}
+		
+		[HarmonyDebug]
+		[HarmonyTranspiler]
+		[HarmonyPatch(typeof(DEN_DeathFloor), "MoveToHeightSequence", MethodType.Enumerator)]
+		public static IEnumerable<CodeInstruction> GoUpSequence(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+		{
+			var matcher = new CodeMatcher(instructions, generator);
+        
+			matcher.Start();
+        			
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Ldloc_1),
+				new CodeMatch(OpCodes.Call),
+				new CodeMatch(OpCodes.Callvirt),
+				new CodeMatch(OpCodes.Ldfld),
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Ldfld)
+				).ThrowIfInvalid("WHYYYYYY0");
+
+			var getHVariable = matcher.Operand;
+			matcher.Advance(-matcher.Pos);
+			
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Newobj),
+				new CodeMatch(OpCodes.Call),
+				new CodeMatch(OpCodes.Ldc_R4),
+				new CodeMatch(OpCodes.Mul),
+				new CodeMatch(OpCodes.Call),
+				new CodeMatch(OpCodes.Callvirt)
+			).ThrowIfInvalid("WHYYYYYY");
+
+			matcher.MatchEndBackwards(
+				new CodeMatch(OpCodes.Ldloc_1),
+				new CodeMatch(OpCodes.Call),
+				new CodeMatch(OpCodes.Ldloc_1),
+				new CodeMatch(OpCodes.Call),
+				new CodeMatch(OpCodes.Callvirt)
+				).ThrowIfInvalid("WHYYYYYY2");;
+
+			matcher.Advance(-4);
+			
+			matcher.RemoveInstructions(21);
+
+			matcher.Insert(
+				CodeInstruction.Call(typeof(MassController), "GetMassController"),
+				new CodeInstruction(OpCodes.Ldloc_1),
+				CodeInstruction.Call(typeof(MassController), "GetInstanceFromDeathFloor"),
+				new CodeInstruction(OpCodes.Ldarg_0),
+				new CodeInstruction(OpCodes.Ldfld, getHVariable),
+				CodeInstruction.Call(typeof(MassInstance), "MoveToHeightSequence"),
+				new CodeInstruction(OpCodes.Nop)
+				);
+			
+			// TranspilerTools.DebugCurrentPosition(matcher);
+			
+			matcher.CreateLabel(out Label enforcedLabel);
+
+			while (true)
+			{
+				matcher.Advance(1);
+				if (matcher.Opcode == OpCodes.Bgt)
+				{
+					matcher.Operand = enforcedLabel;
+					break;
+				}
+			}
+        
+			return matcher.InstructionEnumeration();
+		}
+
+		[HarmonyPostfix]
+		[HarmonyPatch(typeof(CL_EventManager), "EnterLevel")]
+		public static void CanSpawnInitializer()
+		{
+			var massController = MassController.GetMassController();
+
+			foreach (var instance in massController.massInstances)
+			{
+				instance.CheckIfCanSpawn();
+			}
+
+			Debug.Log("Current Level: " + CL_EventManager.currentLevel);
+			Debug.Log("Current Region: " + CL_EventManager.currentRegion);
+			Debug.Log("Current Subregion: " + CL_EventManager.currentSubregion);
+			Debug.Log("Current Gamemode: " + CL_GameManager.gamemode);
+		}
+		
+		#endregion
+	}
+}

@@ -118,12 +118,6 @@ namespace MassEditor
 				}
 				
 				DeathFloorInstance.gameObject.SetActive(canSpawn);
-				DeathFloorInstance.SetActive(canSpawn);
-
-				foreach (Transform transform in DeathFloorInstance.gameObject.transform)
-				{
-					transform.gameObject.SetActive(canSpawn);
-				}
 				
 				Debug.Log(canSpawn);
 				

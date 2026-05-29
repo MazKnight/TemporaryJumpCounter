@@ -110,7 +110,8 @@ namespace MassEditor
 				if (!hasGamemode && spawnSettings.SpawnGamemodes.Count > 0 && canSpawn) canSpawn = false;
 				else if (spawnSettings.SpawnLevels.Count + spawnSettings.SpawnRegions.Count +
 				         spawnSettings.SpawnSubregions.Count == 0 && hasGamemode) canSpawn = true;
-
+				
+				// If there is are gamemode requirements, and they have not been met, delete this instance
 				if (spawnSettings.SpawnGamemodes.Count > 0 && !hasGamemode)
 				{
 					Delete();

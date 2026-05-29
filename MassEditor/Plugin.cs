@@ -61,6 +61,8 @@ namespace MassEditor
 			massInstance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Silos_Endless"));
 			massInstance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Pipeworks_Endless"));
 			massInstance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Habitation_Endless"));
+
+			__instance.allowScores = false;
 		}
 		
 		// [HarmonyPostfix]

@@ -215,6 +215,7 @@ namespace MassEditor
 			massInstance.MoveDirection = moveDirection;
 			
 			massInstance.DeathFloorInstance.transform.position = ENT_Player.playerObject.transform.position - moveDirection.normalized * distanceAtStart;
+			massInstance._height = -distanceAtStart;
 			
 			return massInstance;
 		}

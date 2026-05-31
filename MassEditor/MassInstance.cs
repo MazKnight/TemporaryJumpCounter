@@ -311,7 +311,24 @@ namespace MassEditor
 			
 			SetPosition(Vector3.Lerp(DeathFloorInstance.transform.position, ChosenTarget, Time.deltaTime));
 		}
-		
+
+		internal bool IsWithinRange(float amount)
+		{
+			if (!HasChosenTarget)
+			{
+				ChosenTarget = MoveDirection.normalized * amount;
+				HasChosenTarget = true;
+			}
+			
+			var value = MovementPlane.GetDistanceToPoint(ChosenTarget) <= 0.1f;
+
+			Debug.Log((ChosenTarget - DeathFloorInstance.transform.position).magnitude);
+			
+			if (value) HasChosenTarget = false;
+
+			return value;
+		}
+
 		public void RaiseOverTimeRoutine(float amount)
 		{
 			Debug.Log(amount);

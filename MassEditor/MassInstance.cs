@@ -653,6 +653,65 @@ namespace MassEditor
 			return matcher.InstructionEnumeration();
 		}
 
+		[HarmonyDebug]
+		[HarmonyTranspiler]
+		[HarmonyPatch(typeof(DEN_DeathFloor), "RaiseOverTimeRoutine", MethodType.Enumerator)]
+		private static IEnumerable<CodeInstruction> RaiseOverTimeSequence(IEnumerable<CodeInstruction> instructions,
+			ILGenerator generator)
+		{
+			var matcher = new CodeMatcher(instructions, generator);
+
+			matcher.Start();
+			
+			#region Fix the original function to work with custom angles
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Ldfld),
+				new CodeMatch(OpCodes.Call),
+				new CodeMatch(OpCodes.Sub),
+				new CodeMatch(OpCodes.Stfld),
+				new CodeMatch(OpCodes.Ldloc_1))
+				.ThrowIfInvalid("Unable to find line \"denDeathFloor.transform.position += Vector3.up * Time.deltaTime * amount;\"");
+
+			matcher.RemoveInstructions(8);
+
+			var operand = matcher.Operand.Copy();
+
+			matcher.RemoveInstructions(4);
+
+			matcher.Insert(
+				CodeInstruction.Call(typeof(MassController), "GetMassController"),
+				new CodeInstruction(OpCodes.Ldloc_1),
+				CodeInstruction.Call(typeof(MassController), "GetInstanceFromDeathFloor"),
+				new CodeInstruction(OpCodes.Ldarg_0),
+				new CodeInstruction(OpCodes.Ldfld, operand),
+				CodeInstruction.Call(typeof(MassInstance), "RaiseOverTimeRoutine")
+			);
+			
+			#endregion
+			
+			return matcher.InstructionEnumeration();
+		}
+		
+		[HarmonyPrefix]
+		[HarmonyPatch(typeof(DEN_DeathFloor), "SetHeightRelativeToTransform")]
+		private static bool SetHeightRelativeToTransformOverride(DEN_DeathFloor __instance, float __h, Transform __t)
+		{
+			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).SetHeightRelativeToTransform(__h, __t);
+
+			return false;
+		}
+		
+		[HarmonyPrefix]
+		[HarmonyPatch(typeof(DEN_DeathFloor), "SetHeight", new Type[] {typeof(float)})]
+		private static bool SetHeight(DEN_DeathFloor __instance, float __h)
+		{
+			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).Height = __h;
+
+			return false;
+		}
+		
 		[HarmonyPostfix]
 		[HarmonyPatch(typeof(CL_EventManager), "EnterLevel")]
 		public static void CanSpawnInitializer()

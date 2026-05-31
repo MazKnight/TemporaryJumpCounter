@@ -51,6 +51,13 @@ namespace MassEditor
 		public Vector3 MoveDirection = Vector3.up;
 
 		public Plane PlaneInstance => new Plane(DeathFloorInstance.transform.up, DeathFloorInstance.transform.position);
+		
+		public Plane MovementPlane => new Plane(MoveDirection, DeathFloorInstance.transform.position);
+		
+		/// <summary>
+		/// If enabled, the mass instance will automatically center itself such that the player is at the center of it. DOES NOT CHANGE HOW FAR THE MASS IS FROM THE PLAYER.
+		/// </summary>
+		public bool CenterAccordingToPlane = true;
 
 		public DEN_DeathFloor DeathFloorInstance { get; }
 		

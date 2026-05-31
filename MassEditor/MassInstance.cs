@@ -303,7 +303,13 @@ namespace MassEditor
 		internal bool HasChosenTarget;
 		internal void MoveToHeightSequence(float amount)
 		{
-			Debug.Log(amount);
+			if (!HasChosenTarget)
+			{
+				ChosenTarget = MoveDirection.normalized * amount;
+				HasChosenTarget = true;
+			}
+			
+			SetPosition(Vector3.Lerp(DeathFloorInstance.transform.position, ChosenTarget, Time.deltaTime));
 		}
 		
 		public void RaiseOverTimeRoutine(float amount)

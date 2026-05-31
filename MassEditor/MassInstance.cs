@@ -331,7 +331,7 @@ namespace MassEditor
 
 		public void RaiseOverTimeRoutine(float amount)
 		{
-			Debug.Log(amount);
+			Debug.Log("RaiseOverTimeRoutine");
 		}
 
 		public void MoveFloor(float amount)

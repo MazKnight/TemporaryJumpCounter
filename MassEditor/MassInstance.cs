@@ -546,6 +546,8 @@ namespace MassEditor
 		public static void CancelFX()
 		{
 			FXManager.fxMan.corruptionHeight = -10000f;
+			
+			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).Update();
 		}
 		
 		[HarmonyDebug]

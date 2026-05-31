@@ -264,7 +264,7 @@ namespace MassEditor
 		{
 			MassController.GetMassController().massInstances.Remove(this);
 			
-			Cloner.DestroyGameObject(DeathFloorInstance.gameObject);
+			UnityEngine.Object.Destroy(DeathFloorInstance.gameObject);
 		}
 		
 		private MassInstance(DEN_DeathFloor deathFloor)

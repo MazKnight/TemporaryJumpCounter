@@ -274,6 +274,7 @@ namespace MassEditor
 
 			ID = MassController.GetMassController().GetNextAvailableID();
 		}
+		#endregion
 		
 		#region Movement
 		

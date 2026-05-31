@@ -219,6 +219,7 @@ namespace MassEditor
 			
 			return massInstance;
 		}
+		
 		private static MassInstance Create(DeathFloorType type)
 		{
 			var database = CL_AssetManager.GetFullCombinedAssetDatabase().entityPrefabs;

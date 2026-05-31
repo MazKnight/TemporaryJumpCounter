@@ -75,7 +75,6 @@ namespace MassEditor
 		public float GetDistanceFromMovementPlane(Transform t) => MovementPlane.GetDistanceToPoint(t.position);
 		
 		public float GetHeight() => Height;
-
 		public float GetRelativeHeight() => -GetPlayerDistance();
 
 		public void CheckIfCanSpawn()

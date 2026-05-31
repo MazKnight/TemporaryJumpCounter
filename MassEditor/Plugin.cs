@@ -65,8 +65,7 @@ namespace MassEditor
 				new CodeMatch(OpCodes.Ldc_R4),
 				new CodeMatch(OpCodes.Stfld),
 				new CodeMatch(OpCodes.Ldarg_0)
-			).ThrowIfInvalid("WHYYYYYY");
-			
+			).ThrowIfInvalid("Unable to find matching codes for \"DEN_DeathFloor.instance = this;\"");
 
 			matcher.RemoveInstructions(2);
 

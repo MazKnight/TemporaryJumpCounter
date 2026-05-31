@@ -336,9 +336,28 @@ namespace MassEditor
 
 		public void MoveFloor(float amount)
 		{
-			// if (!DoesMove) return;
-			
-			// Debug.Log(GetPlayerDistance());
+			if (_customMovementCurve != null)
+			{
+				_currentTimeOnCurve = Math.Min(_currentTimeOnCurve + Time.deltaTime, _completetionTime);
+
+				Height = _customMovementCurve.Evaluate(_currentTimeOnCurve);
+				
+				Debug.Log("---------");
+				Debug.Log(_currentTimeOnCurve);
+				Debug.Log(_customMovementCurve.Evaluate(_currentTimeOnCurve));
+				Debug.Log("---------");
+
+				if (_currentTimeOnCurve.Equals(_completetionTime))
+				{
+					_customMovementCurve = null;
+					_currentTimeOnCurve = 0;
+					_completetionTime = 0;
+				}
+				
+				return;
+			}
+
+			if (PreventMovement) {Height += 0; return;}
 			
 			Height += amount;
 		}

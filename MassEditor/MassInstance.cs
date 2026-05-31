@@ -395,7 +395,22 @@ namespace MassEditor
 			
 			if (massInstance == null)
 			{
-				Cloner.DestroyGameObject(__instance.gameObject);
+				if (DEN_DeathFloor.instance != null)
+				{
+					UnityEngine.Object.Destroy(__instance);
+				}
+				
+				var instance = new MassInstance(__instance);
+
+				instance.MoveDirection = Vector3.up;
+				instance.UpDirection = Vector3.up;
+				
+				instance.spawnSettings.OverrideSpawnClauses = true;
+				
+				MassController.GetMassController().massInstances.Add(instance);
+				
+				DEN_DeathFloor.instance = __instance;
+				
 				return;
 			}
 			

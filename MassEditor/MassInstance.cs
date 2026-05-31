@@ -696,7 +696,7 @@ namespace MassEditor
 		[HarmonyPatch(typeof(DEN_DeathFloor), "SetHeightRelativeToTransform")]
 		private static bool SetHeightRelativeToTransformOverride(DEN_DeathFloor __instance, float ___h, Transform ___t)
 		{
-			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).SetHeightRelativeToTransform(__h, __t);
+			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).SetHeightRelativeToTransform(___h, ___t);
 
 			return false;
 		}

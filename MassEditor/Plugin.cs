@@ -50,18 +50,6 @@ namespace MassEditor
 		[HarmonyPatch(typeof(CL_GameManager), "AreAchievementsAllowed")]
 		public static void DenyAchievements(ref bool __result) => __result = false;
 		
-		// [HarmonyPostfix]
-		// [HarmonyPatch(typeof(ENT_Player), "Jump")]
-		// public static void Test()
-		// {
-		// 	// Debug.Log(MassController.GetMassController().massInstances.Count);
-		// 	//
-		// 	// foreach (var i in MassController.GetMassController().massInstances)
-		// 	// {
-		// 	// 	Debug.Log(i.UpDirection);
-		// 	// }
-		// }
-
 		[HarmonyTranspiler]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "Start")]
 		public static IEnumerable<CodeInstruction> RemoveSingleton(IEnumerable<CodeInstruction> instructions)

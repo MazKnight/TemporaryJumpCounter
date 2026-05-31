@@ -259,7 +259,7 @@ namespace MassEditor
 			
 			return massInstance;
 		}
-
+		
 		public void Delete()
 		{
 			MassController.GetMassController().massInstances.Remove(this);

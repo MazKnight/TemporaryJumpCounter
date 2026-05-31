@@ -618,6 +618,38 @@ namespace MassEditor
 				}
 			}
         
+			#endregion
+
+			matcher.Advance(-matcher.Pos);
+
+			matcher.MatchEndForward(
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Ldc_I4_1),
+				new CodeMatch(OpCodes.Stfld),
+				new CodeMatch(OpCodes.Ldc_I4_1),
+				new CodeMatch(OpCodes.Ret),
+				new CodeMatch(OpCodes.Ldarg_0),
+				new CodeMatch(OpCodes.Ldc_I4_M1),
+				new CodeMatch(OpCodes.Stfld),
+				new CodeMatch(OpCodes.Ldloc_1)
+				);
+
+			matcher.SetAndAdvance(OpCodes.Nop, null);
+			
+			matcher.RemoveInstructions(8);
+			
+			matcher.Insert(
+				CodeInstruction.Call(typeof(MassController), "GetMassController"),
+				new CodeInstruction(OpCodes.Ldloc_1),
+				CodeInstruction.Call(typeof(MassController), "GetInstanceFromDeathFloor"),
+				new CodeInstruction(OpCodes.Ldarg_0),
+				new CodeInstruction(OpCodes.Ldfld, getHVariable),
+				CodeInstruction.Call(typeof(MassInstance), "IsWithinRange")
+			);
+
+			matcher.Advance(6);
+			matcher.Opcode = OpCodes.Brfalse;
+			
 			return matcher.InstructionEnumeration();
 		}
 

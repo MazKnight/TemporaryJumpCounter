@@ -77,6 +77,8 @@ namespace MassEditor
 		public float GetHeight() => Height;
 		public float GetRelativeHeight() => -GetPlayerDistance();
 
+		public bool PreventMovement = false;
+
 		public void CheckIfCanSpawn()
 		{
 			try

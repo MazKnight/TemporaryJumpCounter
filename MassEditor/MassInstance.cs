@@ -277,8 +277,31 @@ namespace MassEditor
 		#endregion
 		
 		#region Movement
-		
-		public void MoveToHeightSequence(float amount)
+
+		public void MoveInDirection(Vector3 direction) => MoveInDirection(direction.normalized, direction.magnitude);
+		public void MoveInDirection(Vector3 direction, float magnitude)
+		{
+			var endingPosition = DeathFloorInstance.transform.position + direction * magnitude;
+
+			var distance = MovementPlane.GetDistanceToPoint(endingPosition);
+
+			Height += distance;
+
+			if (!CenterAccordingToPlane)
+			{
+				var directionOnPlane = MovementPlane.ClosestPointOnPlane(endingPosition);
+				DeathFloorInstance.transform.position += directionOnPlane * magnitude;
+			}
+		}
+
+		public void SetPosition(GameObject g) => SetPosition(g.transform);
+		public void SetPosition(Transform t) => SetPosition(t.position);
+		public void SetPosition(Vector3 position) => Height += MovementPlane.GetDistanceToPoint(position);
+
+
+		internal Vector3 ChosenTarget;
+		internal bool HasChosenTarget;
+		internal void MoveToHeightSequence(float amount)
 		{
 			Debug.Log(amount);
 		}

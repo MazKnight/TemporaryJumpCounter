@@ -559,6 +559,8 @@ namespace MassEditor
         
 			matcher.Start();
         			
+			#region Run Custom Function instead of regular equation
+			
 			matcher.MatchEndForward(
 				new CodeMatch(OpCodes.Ldloc_1),
 				new CodeMatch(OpCodes.Call),

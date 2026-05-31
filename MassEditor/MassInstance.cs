@@ -553,7 +553,7 @@ namespace MassEditor
 		[HarmonyDebug]
 		[HarmonyTranspiler]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "MoveToHeightSequence", MethodType.Enumerator)]
-		public static IEnumerable<CodeInstruction> GoUpSequence(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+		private static IEnumerable<CodeInstruction> GoUpSequence(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
 		{
 			var matcher = new CodeMatcher(instructions, generator);
         

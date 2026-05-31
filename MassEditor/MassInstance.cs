@@ -65,6 +65,11 @@ namespace MassEditor
 		
 		public int ID { get; }
 
+		private void Update()
+		{
+			
+		}
+
 		public float GetPlayerDistance() => PlaneInstance.GetDistanceToPoint(ENT_Player.playerObject.transform.position);
 		
 		public float GetHeight() => Height;

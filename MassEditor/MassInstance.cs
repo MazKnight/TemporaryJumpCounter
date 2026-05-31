@@ -729,7 +729,7 @@ namespace MassEditor
 
 		[HarmonyTranspiler]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "Start")]
-		public static IEnumerable<CodeInstruction> RemoveOriginalCommands(IEnumerable<CodeInstruction> instructions,
+		private static IEnumerable<CodeInstruction> RemoveOriginalCommands(IEnumerable<CodeInstruction> instructions,
 			ILGenerator generator)
 		{
 			var matcher = new CodeMatcher(instructions, generator);

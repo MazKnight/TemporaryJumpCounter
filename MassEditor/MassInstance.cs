@@ -240,7 +240,7 @@ namespace MassEditor
 			{
 				if (i.name.Equals(name))
 				{
-					gameObject = Cloner.CloneGameObject(i);
+					gameObject = UnityEngine.Object.Instantiate(i);
 				}
 			}
 

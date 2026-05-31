@@ -543,7 +543,7 @@ namespace MassEditor
 		
 		[HarmonyPostfix]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "Update")]
-		public static void CancelFX(DEN_DeathFloor __instance)
+		private static void CancelFX(DEN_DeathFloor __instance)
 		{
 			FXManager.fxMan.corruptionHeight = -10000f;
 			

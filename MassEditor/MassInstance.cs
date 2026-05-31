@@ -714,7 +714,7 @@ namespace MassEditor
 		
 		[HarmonyPostfix]
 		[HarmonyPatch(typeof(CL_EventManager), "EnterLevel")]
-		public static void CanSpawnInitializer()
+		private static void CanSpawnInitializer()
 		{
 			var massController = MassController.GetMassController();
 

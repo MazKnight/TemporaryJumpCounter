@@ -90,70 +90,71 @@ namespace MassEditor
 
 					canSpawn = false;
 
-				foreach (var i in spawnSettings.SpawnLevels)
-				{
-					// Debug.Log(i.name);
-					// Debug.Log(CL_EventManager.currentLevel.name);
-					// Debug.Log("---");
-					
-					if (i.name == CL_EventManager.currentLevel.name || canSpawn)
+					foreach (var i in spawnSettings.SpawnLevels)
 					{
-						canSpawn = true;
-						break;
+						// Debug.Log(i.name);
+						// Debug.Log(CL_EventManager.currentLevel.name);
+						// Debug.Log("---");
+
+						if (i.name == CL_EventManager.currentLevel.name || canSpawn)
+						{
+							canSpawn = true;
+							break;
+						}
 					}
-				}
-				
-				foreach (var i in spawnSettings.SpawnRegions)
-				{
-					// Debug.Log(i.name);
-					// Debug.Log(CL_EventManager.currentRegion.name);
-					// Debug.Log("---");
-					if (i.name == CL_EventManager.currentRegion.name || canSpawn)
+
+					foreach (var i in spawnSettings.SpawnRegions)
 					{
-						canSpawn = true;
-						break;
+						// Debug.Log(i.name);
+						// Debug.Log(CL_EventManager.currentRegion.name);
+						// Debug.Log("---");
+						if (i.name == CL_EventManager.currentRegion.name || canSpawn)
+						{
+							canSpawn = true;
+							break;
+						}
 					}
-				}
-				
-				foreach (var i in spawnSettings.SpawnSubregions)
-				{
-					// Debug.Log(i.name);
-					// Debug.Log(CL_EventManager.currentSubregion.name);
-					// Debug.Log("---");
-					if (i.name == CL_EventManager.currentSubregion.name || canSpawn)
+
+					foreach (var i in spawnSettings.SpawnSubregions)
 					{
-						canSpawn = true;
-						break;
+						// Debug.Log(i.name);
+						// Debug.Log(CL_EventManager.currentSubregion.name);
+						// Debug.Log("---");
+						if (i.name == CL_EventManager.currentSubregion.name || canSpawn)
+						{
+							canSpawn = true;
+							break;
+						}
 					}
-				}
-				
-				var hasGamemode = false;
-				
-				foreach (var i in spawnSettings.SpawnGamemodes)
-				{
-					// Debug.Log(i.name);
-					// Debug.Log(CL_GameManager.GetCurrentGamemode());
-					// Debug.Log("---");
-					if (i.name == CL_GameManager.GetCurrentGamemode().name)
+
+					var hasGamemode = false;
+
+					foreach (var i in spawnSettings.SpawnGamemodes)
 					{
-						hasGamemode = true;
-						break;
+						// Debug.Log(i.name);
+						// Debug.Log(CL_GameManager.GetCurrentGamemode());
+						// Debug.Log("---");
+						if (i.name == CL_GameManager.GetCurrentGamemode().name)
+						{
+							hasGamemode = true;
+							break;
+						}
 					}
-				}
-				
-				
-				// If there is more than one gamemode requirement, and it has not been met, cannot spawn
-				if (!hasGamemode && spawnSettings.SpawnGamemodes.Count > 0 && canSpawn) canSpawn = false;
-				
-				// If there are only gamemode requirements, and it has been met, can spawn
-				else if (spawnSettings.SpawnLevels.Count + spawnSettings.SpawnRegions.Count +
-				         spawnSettings.SpawnSubregions.Count == 0 && hasGamemode) canSpawn = true;
-				
-				// If there is are gamemode requirements, and they have not been met, delete this instance
-				if (spawnSettings.SpawnGamemodes.Count > 0 && !hasGamemode)
-				{
-					Delete();
-					return;
+
+
+					// If there is more than one gamemode requirement, and it has not been met, cannot spawn
+					if (!hasGamemode && spawnSettings.SpawnGamemodes.Count > 0 && canSpawn) canSpawn = false;
+
+					// If there are only gamemode requirements, and it has been met, can spawn
+					else if (spawnSettings.SpawnLevels.Count + spawnSettings.SpawnRegions.Count +
+					         spawnSettings.SpawnSubregions.Count == 0 && hasGamemode) canSpawn = true;
+
+					// If there is are gamemode requirements, and they have not been met, delete this instance
+					if (spawnSettings.SpawnGamemodes.Count > 0 && !hasGamemode)
+					{
+						Delete();
+						return;
+					}
 				}
 				
 				// Gives external mods an opportunity to force the mass wall to spawn and/or to prevent it from spawning.

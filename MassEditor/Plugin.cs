@@ -70,6 +70,16 @@ namespace MassEditor
 
 			matcher.RemoveInstructions(2);
 
+			matcher.MatchEndBackwards(
+				new CodeMatch(OpCodes.Ldsfld),
+				new CodeMatch(OpCodes.Ldnull),
+				new CodeMatch(OpCodes.Call),
+				new CodeMatch(OpCodes.Brfalse),
+				new CodeMatch(OpCodes.Ldarg_0)
+			).ThrowIfInvalid("Unable to find matching codes for \"UnityEngine.Object.Destroy((UnityEngine.Object) this.gameObject);\"");
+
+			matcher.RemoveInstructions(4);
+
 			return matcher.InstructionEnumeration();
 		}
 		

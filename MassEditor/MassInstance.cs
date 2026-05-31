@@ -83,7 +83,12 @@ namespace MassEditor
 		{
 			try
 			{
-				var canSpawn = false;
+				var canSpawn = true;
+
+				if (!spawnSettings.OverrideSpawnClauses)
+				{
+
+					canSpawn = false;
 
 				foreach (var i in spawnSettings.SpawnLevels)
 				{

@@ -550,7 +550,6 @@ namespace MassEditor
 			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).Update();
 		}
 		
-		[HarmonyDebug]
 		[HarmonyTranspiler]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "MoveToHeightSequence", MethodType.Enumerator)]
 		private static IEnumerable<CodeInstruction> GoUpSequence(IEnumerable<CodeInstruction> instructions, ILGenerator generator)

@@ -371,6 +371,11 @@ namespace MassEditor
 			public List<M_Region> SpawnRegions = new List<M_Region>();
 			public List<M_Subregion> SpawnSubregions = new List<M_Subregion>();
 			public List<M_Gamemode> SpawnGamemodes = new List<M_Gamemode>();
+
+			/// <summary>
+			/// If this is set to true, the program will leave the instance alone and let the event (or others) decide whether or not the mass should be spawned.
+			/// </summary>
+			public bool OverrideSpawnClauses = false;
 		}
 
 		public enum DeathFloorType

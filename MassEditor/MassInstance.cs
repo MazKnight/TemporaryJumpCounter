@@ -34,8 +34,8 @@ namespace MassEditor
 			set
 			{
 				DeathFloorInstance.transform.position += MoveDirection.normalized * (value - _height);
-
-				DeathFloorInstance.transform.position =
+				
+				if (CenterAccordingToPlane) DeathFloorInstance.transform.position =
 					PlaneInstance.ClosestPointOnPlane(ENT_Player.playerObject.transform.position);
 
 				_height = value;

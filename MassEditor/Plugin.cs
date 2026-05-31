@@ -34,15 +34,7 @@ namespace MassEditor
 		public static void CreateDeathGoo(CL_GameManager __instance)
 		{
 			if (!CL_GameManager.IsInGame()) return;
-
-			var massInstance = MassInstance.Create(Vector3.up, 28f);
 			
-			massInstance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Silos_Campaign"));
-			massInstance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Pipeworks_Campaign"));
-			massInstance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Silos_Endless"));
-			massInstance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Pipeworks_Endless"));
-			massInstance.spawnSettings.SpawnRegions.Add(CL_AssetManager.GetRegionAsset("Region_Habitation_Endless"));
-
 			__instance.allowScores = false;
 		}
 		

@@ -477,7 +477,7 @@ namespace MassEditor
 			matcher.Insert(CodeInstruction.Call(typeof(MassInstance), "MoveFloor"));
 			
 			matcher.Advance(1);
-			var code = matcher.CreateLabel(out Label label);
+			matcher.CreateLabel(out Label label);
 
 			matcher.Advance(pos - 1 - matcher.Pos);
 

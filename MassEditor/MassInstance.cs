@@ -703,7 +703,7 @@ namespace MassEditor
 		
 		[HarmonyPrefix]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "SetHeight", new Type[] {typeof(float)})]
-		private static bool SetHeight(DEN_DeathFloor __instance, float __h)
+		private static bool SetHeight(DEN_DeathFloor __instance, float ___h)
 		{
 			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).Height = __h;
 

@@ -651,8 +651,7 @@ namespace MassEditor
 			
 			return matcher.InstructionEnumeration();
 		}
-
-		[HarmonyDebug]
+		
 		[HarmonyTranspiler]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "RaiseOverTimeRoutine", MethodType.Enumerator)]
 		private static IEnumerable<CodeInstruction> RaiseOverTimeSequence(IEnumerable<CodeInstruction> instructions,

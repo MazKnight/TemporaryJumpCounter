@@ -420,7 +420,6 @@ namespace MassEditor
 			massInstance.CheckIfCanSpawn();
 		}
 		
-		[HarmonyDebug]
 		[HarmonyTranspiler]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "Update")]
 		public static IEnumerable<CodeInstruction> UpdateEditor(IEnumerable<CodeInstruction> instructions, ILGenerator generator)

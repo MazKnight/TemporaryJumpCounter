@@ -406,6 +406,7 @@ namespace MassEditor
 				instance.UpDirection = Vector3.up;
 				
 				instance.spawnSettings.OverrideSpawnClauses = true;
+				instance.floorName = "MainGameGoo";
 				
 				MassController.GetMassController().massInstances.Add(instance);
 				

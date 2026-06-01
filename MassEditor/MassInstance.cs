@@ -59,6 +59,8 @@ namespace MassEditor
 		/// </summary>
 		public bool CenterAccordingToPlane = true;
 
+		public string floorName;
+		
 		public DEN_DeathFloor DeathFloorInstance { get; }
 		
 		public SpawnSettings spawnSettings;

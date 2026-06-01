@@ -411,6 +411,8 @@ namespace MassEditor
 				MassController.GetMassController().massInstances.Add(instance);
 				
 				DEN_DeathFloor.instance = __instance;
+
+				if (__instance.usePlayerStartHeight) __instance.playerStartHeight += Math.Abs(__instance.transform.position.y);
 				
 				return;
 			}

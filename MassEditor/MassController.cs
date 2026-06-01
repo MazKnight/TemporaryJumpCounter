@@ -58,6 +58,16 @@ namespace MassEditor
 			if (instance == null) instance = new MassController();
 			return instance;
 		}
+
+		public MassInstance GetInstanceFromFloorName(string name)
+		{
+			foreach (var i in massInstances)
+			{
+				if (i.floorName == name) return i;
+			}
+
+			return null;
+		}
 		
 		public MassInstance GetInstanceFromDeathFloor(DEN_DeathFloor deathFloor)
 		{

@@ -53,6 +53,116 @@ namespace MassEditor
 			return result.ToArray();
 		}
 
+		#region Save stuff
+
+		internal Dictionary<string, List<MassInstance.SaveData>> saveData =
+			new Dictionary<string, List<MassInstance.SaveData>>();
+
+		public void SaveMassInstances(CL_SaveManager.SaveState saveState)
+		{
+			var add = new List<MassInstance.SaveData>();
+			
+			foreach (var i in massInstances)
+			{
+				add.Add(i.CreateSaveData());
+			}
+			
+			saveData[saveState.id] = add;
+		}
+		
+		public void CreateMassInstancesOnLoad(string fileName) => LoadMassInstancesFromJson(LoadSessionFromFile(fileName));
+		
+		public static string LoadSessionFromFile(string fileName)
+		{
+			string path = Path.Combine(Application.persistentDataPath, $"Sessions/{fileName}-save.session");
+			if (!File.Exists(path))
+				return null;
+			using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+			{
+				using (GZipStream gzipStream = new GZipStream(fileStream, CompressionMode.Decompress))
+				{
+					using (StreamReader streamReader = new StreamReader(gzipStream, Encoding.UTF8))
+						return (streamReader.ReadToEnd());
+				}
+			}
+		}
+
+		public void LoadMassSaveStates(CL_SaveManager.SaveState saveState)
+		{
+			while (massInstances.Count > 0) massInstances[0].Delete();
+
+			foreach (var i in saveData.Keys)
+			{
+				Debug.Log(i);
+			}
+			
+			var instances = saveData[saveState.id];
+
+			foreach (var i in instances)
+			{
+				var instance = MassInstance.LoadSaveData(i);
+			}
+		}
+		
+		public void LoadMassInstancesFromJson(string data)
+		{
+			Debug.Log("------------------------------------------------------------------------------");
+			
+			var json = JsonConvert.DeserializeObject<Dictionary<string, object>>(data);
+			var deathGooData = json["DeathGooData"].ToString();
+			var json2 = JsonConvert.DeserializeObject<Dictionary<string, object>>(deathGooData);
+
+			foreach (var i in json2.Keys)
+			{
+				Debug.Log(i);
+				var json3 = JsonConvert.DeserializeObject<List<object>>(json2[i].ToString());
+				saveData[i] = new List<MassInstance.SaveData>();
+
+				foreach (var i2 in json3)
+				{
+					var dataFinal = JsonUtility.FromJson<MassInstance.SaveData>(i2.ToString());
+					saveData[i].Add(dataFinal);
+				}
+			}
+		}
+		
+		public static string InjectDataIntoJson(string data)
+		{
+			string value = "{";
+			
+			foreach (var i in GetMassController().saveData)
+			{
+				value += $"\"{i.Key}\": [";
+			
+				foreach (var e in i.Value)
+				{
+					value += $"{JsonUtility.ToJson(e)}, ";
+				}
+			
+				value = value.TrimEnd(", ".ToCharArray());
+				value += "],";
+			}
+			value = value.TrimEnd(", ".ToCharArray());
+			value += "}";
+			
+			data =  data.Insert(1, $"\"DeathGooData\": {value},");
+			
+			return data;
+		}
+		
+		public List<MassInstance.SaveData> GetMassInstanceSaves()
+		{
+			var datas = new List<MassInstance.SaveData>();
+			
+			foreach (var i in massInstances)
+			{
+				datas.Add(i.CreateSaveData());
+			}
+
+			return datas;
+		}
+		#endregion
+		
 		public static MassController GetMassController()
 		{
 			if (instance == null) instance = new MassController();

@@ -384,6 +384,38 @@ namespace MassEditor
 			Holiday,
 			Training
 		}
+
+		[Serializable]
+		public struct SaveData
+		{
+			public float distanceFromPlayer;
+			
+			// public float upDirectionX;
+			// public float upDirectionY;
+			// public float upDirectionZ;
+			
+			// public float moveDirectionX;
+			// public float moveDirectionY;
+			// public float moveDirectionZ;
+
+			public string floorName;
+
+			public Vector3 upDirection;
+
+			public Vector3 moveDirection;
+			
+			public SpawnSettings SpawnSettings;
+			
+			public bool active;
+			
+			public float speed;
+			
+			public float speedMult;
+
+			public float _height;
+			
+			public DeathFloorType _deathFloorType;
+		}
 		#endregion
 		
 		#region Patches

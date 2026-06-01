@@ -183,8 +183,49 @@ namespace MassEditor
 			
 			foreach (var i in movementCurve.keys)
 			{
-				if (i.time > _completetionTime) _completetionTime = i.time;
-			}
+				distanceFromPlayer = GetPlayerDistance(),
+				// upDirectionX = UpDirection.x,
+				// upDirectionY = UpDirection.y,
+				// upDirectionZ = UpDirection.z,
+				// moveDirectionX = MoveDirection.x,
+				// moveDirectionY = MoveDirection.y,
+				// moveDirectionZ = MoveDirection.z,
+				upDirection = UpDirection,
+				moveDirection = MoveDirection,
+				active = DeathFloorInstance.IsActive(),
+				speed = DeathFloorInstance.speed,
+				speedMult = (float) AccessTools.Field(typeof(DEN_DeathFloor), "speedMult").GetValue(DeathFloorInstance),
+				_height = _height,
+				_deathFloorType = _deathFloorType,
+				floorName = floorName
+			};
+			
+			spawnSettings.AddToSaveData(ref saveData);
+			
+			return saveData;
+		}
+
+		public static MassInstance LoadSaveData(SaveData saveData)
+		{
+			// var upDirection = new Vector3(saveData.upDirectionX, saveData.upDirectionY, saveData.upDirectionZ);
+			// var moveDirection = new Vector3(saveData.moveDirectionX, saveData.moveDirectionY, saveData.moveDirectionZ);
+			
+			var instance = Create(saveData.upDirection, saveData.moveDirection, saveData.distanceFromPlayer, saveData._deathFloorType);
+
+			instance.DeathFloorInstance.speed = saveData.speed;
+
+			instance._height = saveData._height;
+			instance.DeathFloorInstance.SetActive(saveData.active);
+			
+			instance.floorName = saveData.floorName;
+
+			instance.spawnSettings = SpawnSettings.CreateFromSaveData(saveData);
+			
+			AccessTools.Field(typeof(DEN_DeathFloor), "speedMult").SetValue(instance.DeathFloorInstance, saveData.speedMult);
+
+			if (instance.floorName == "MainGameGoo") DEN_DeathFloor.instance = instance.DeathFloorInstance;
+			
+			return instance;
 		}
 
 		#region To be or not to be

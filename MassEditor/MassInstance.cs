@@ -329,7 +329,9 @@ namespace MassEditor
 			return value;
 		}
 
-		public void RaiseOverTimeRoutine(float amount)
+		public void RaiseOverTimeRoutine(float amount) => Height += amount * Time.deltaTime;
+
+		public void SetHeightRelativeToTransform(float h, Transform t)
 		{
 			Debug.Log("RaiseOverTimeRoutine");
 		}

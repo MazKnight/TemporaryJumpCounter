@@ -50,6 +50,8 @@ namespace MassEditor
 		}
 		public Vector3 MoveDirection = Vector3.up;
 
+		private DeathFloorType _deathFloorType;
+		
 		public Plane PlaneInstance => new Plane(DeathFloorInstance.transform.up, DeathFloorInstance.transform.position);
 		
 		public Plane MovementPlane => new Plane(MoveDirection, DeathFloorInstance.transform.position);

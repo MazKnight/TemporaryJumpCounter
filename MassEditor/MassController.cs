@@ -91,12 +91,7 @@ namespace MassEditor
 		{
 			while (massInstances.Count > 0) massInstances[0].Delete();
 
-			foreach (var i in saveData.Keys)
-			{
-				Debug.Log(i);
-			}
-			
-			var instances = saveData[saveState.id];
+			if (!saveData.TryGetValue(saveState.id, out List<MassInstance.SaveData> instances)) return;
 
 			foreach (var i in instances)
 			{

@@ -376,6 +376,31 @@ namespace MassEditor
 			/// If this is set to true, the program will leave the instance alone and let the event (or others) decide whether or not the mass should be spawned.
 			/// </summary>
 			public bool OverrideSpawnClauses = false;
+
+			public void AddToSaveData(ref SaveData saveData)
+			{
+				foreach (var e in SpawnLevels) saveData.SpawnLevels += $"\"{e}\",";
+				foreach (var e in SpawnRegions) saveData.SpawnRegions += $"\"{e}\",";
+				foreach (var e in SpawnSubregions) saveData.SpawnSubregions += $"\"{e}\",";
+				foreach (var e in SpawnGamemodes) saveData.SpawnGamemodes += $"\"{e}\",";
+				saveData.OverrideSpawnClauses = OverrideSpawnClauses;
+				
+			}
+
+			public static SpawnSettings CreateFromSaveData(SaveData saveData)
+			{
+				var spawnSettings = new  SpawnSettings();
+
+				foreach (var i in saveData.SpawnLevels.Split(',')) spawnSettings.SpawnLevels.Add(i.TrimEnd("\"".ToCharArray()).TrimStart("\"".ToCharArray()));
+				foreach (var i in saveData.SpawnRegions.Split(',')) spawnSettings.SpawnRegions.Add(i.TrimEnd("\"".ToCharArray()).TrimStart("\"".ToCharArray()));
+				foreach (var i in saveData.SpawnSubregions.Split(',')) spawnSettings.SpawnSubregions.Add(i.TrimEnd("\"".ToCharArray()).TrimStart("\"".ToCharArray()));
+				foreach (var i in saveData.SpawnGamemodes.Split(',')) spawnSettings.SpawnGamemodes.Add(i.TrimEnd("\"".ToCharArray()).TrimStart("\"".ToCharArray()));
+				
+				spawnSettings.OverrideSpawnClauses = saveData.OverrideSpawnClauses;
+
+				return spawnSettings;
+			}
+			
 		}
 
 		public enum DeathFloorType

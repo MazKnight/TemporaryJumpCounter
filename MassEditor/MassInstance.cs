@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Unity.VisualScripting;
@@ -71,7 +72,7 @@ namespace MassEditor
 
 		private void Update()
 		{
-			
+			if (DeathFloorInstance == null) Delete();
 		}
 
 		public float GetPlayerDistance() => PlaneInstance.GetDistanceToPoint(ENT_Player.playerObject.transform.position);
@@ -100,7 +101,7 @@ namespace MassEditor
 						// Debug.Log(CL_EventManager.currentLevel.name);
 						// Debug.Log("---");
 
-						if (i.name == CL_EventManager.currentLevel.name || canSpawn)
+						if (i == CL_EventManager.currentLevel.name || canSpawn)
 						{
 							canSpawn = true;
 							break;
@@ -112,7 +113,7 @@ namespace MassEditor
 						// Debug.Log(i.name);
 						// Debug.Log(CL_EventManager.currentRegion.name);
 						// Debug.Log("---");
-						if (i.name == CL_EventManager.currentRegion.name || canSpawn)
+						if (i == CL_EventManager.currentRegion.name || canSpawn)
 						{
 							canSpawn = true;
 							break;
@@ -124,7 +125,7 @@ namespace MassEditor
 						// Debug.Log(i.name);
 						// Debug.Log(CL_EventManager.currentSubregion.name);
 						// Debug.Log("---");
-						if (i.name == CL_EventManager.currentSubregion.name || canSpawn)
+						if (i == CL_EventManager.currentSubregion.name || canSpawn)
 						{
 							canSpawn = true;
 							break;
@@ -138,7 +139,7 @@ namespace MassEditor
 						// Debug.Log(i.name);
 						// Debug.Log(CL_GameManager.GetCurrentGamemode());
 						// Debug.Log("---");
-						if (i.name == CL_GameManager.GetCurrentGamemode().name)
+						if (i == CL_GameManager.GetCurrentGamemode().name)
 						{
 							hasGamemode = true;
 							break;
@@ -176,16 +177,10 @@ namespace MassEditor
 				Debug.LogWarning("Checking for spawn plausibility has failed. Exception: " + e.GetType().Name + " Message: " + e.Message);
 			}
 		}
-		
-		private AnimationCurve _customMovementCurve;
-		private float _currentTimeOnCurve;
-		private float _completetionTime;
-		public void PushCustomMovement(AnimationCurve movementCurve)
+
+		public SaveData CreateSaveData()
 		{
-			_customMovementCurve = movementCurve;
-			_currentTimeOnCurve = 0;
-			
-			foreach (var i in movementCurve.keys)
+			var saveData = new SaveData
 			{
 				distanceFromPlayer = GetPlayerDistance(),
 				// upDirectionX = UpDirection.x,
@@ -231,7 +226,7 @@ namespace MassEditor
 			
 			return instance;
 		}
-
+		
 		#region To be or not to be
 		/// <summary>
 		/// Creates a manipulatable instance of DeathFloor
@@ -299,6 +294,8 @@ namespace MassEditor
 			var massController = MassController.GetMassController();
 			var massInstance = new MassInstance(gameObject.GetComponent<DEN_DeathFloor>());
 			
+			massInstance._deathFloorType = type;
+			
 			massController.massInstances.Add(massInstance);
 			if (massController.massInstances.Count > 1) massInstance.DeathFloorInstance.setCorruptionHeight = false;
 			
@@ -308,6 +305,8 @@ namespace MassEditor
 		public void Delete()
 		{
 			MassController.GetMassController().massInstances.Remove(this);
+
+			if (DeathFloorInstance == null) return;
 			
 			UnityEngine.Object.Destroy(DeathFloorInstance.gameObject);
 		}
@@ -366,8 +365,6 @@ namespace MassEditor
 			}
 			
 			var value = MovementPlane.GetDistanceToPoint(ChosenTarget) <= 0.1f;
-
-			Debug.Log((ChosenTarget - DeathFloorInstance.transform.position).magnitude);
 			
 			if (value) HasChosenTarget = false;
 
@@ -378,7 +375,7 @@ namespace MassEditor
 
 		public void SetHeightRelativeToTransform(float h, Transform t)
 		{
-			Debug.Log("RaiseOverTimeRoutine");
+			SetPosition(t.position + h * MoveDirection);
 		}
 
 		public void MoveFloor(float amount)
@@ -426,6 +423,7 @@ namespace MassEditor
 		#endregion
 		
 		#region Subclasses
+
 		public class SpawnSettings
 		{
 			public List<string> SpawnLevels = new List<string>();
@@ -489,8 +487,13 @@ namespace MassEditor
 			public Vector3 upDirection;
 
 			public Vector3 moveDirection;
-			
-			public SpawnSettings SpawnSettings;
+
+			public string SpawnLevels;
+			public string SpawnRegions;
+			public string SpawnSubregions;
+			public string SpawnGamemodes;
+
+			public bool OverrideSpawnClauses;
 			
 			public bool active;
 			
@@ -814,18 +817,18 @@ namespace MassEditor
 		
 		[HarmonyPrefix]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "SetHeightRelativeToTransform")]
-		private static bool SetHeightRelativeToTransformOverride(DEN_DeathFloor __instance, float ___h, Transform ___t)
+		private static bool SetHeightRelativeToTransformOverride(DEN_DeathFloor __instance, float h, Transform t)
 		{
-			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).SetHeightRelativeToTransform(___h, ___t);
+			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).SetHeightRelativeToTransform(h, t);
 
 			return false;
 		}
 		
 		[HarmonyPrefix]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "SetHeight", new Type[] {typeof(float)})]
-		private static bool SetHeight(DEN_DeathFloor __instance, float ___h)
+		private static bool SetHeight(DEN_DeathFloor __instance, float h)
 		{
-			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).Height = ___h;
+			MassController.GetMassController().GetInstanceFromDeathFloor(__instance).Height = h;
 
 			return false;
 		}

@@ -1,5 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Reflection.Emit;
+using System.Text;
 using HarmonyLib;
+using Newtonsoft.Json;
+using Unity.Serialization.Json;
+using UnityEngine;
+using Object = System.Object;
 
 namespace MassEditor
 {
@@ -7,7 +16,6 @@ namespace MassEditor
 	[HarmonyPatch]
 	public class MassController
 	{
-		
 		private static MassController instance;
 
 		internal List<MassInstance> massInstances = new List<MassInstance>();
@@ -30,7 +38,7 @@ namespace MassEditor
 
 			return highest + 1;
 		}
-
+		
 		public MassInstance GetInstanceFromID(int id)
 		{
 			foreach (var i in massInstances)
@@ -101,15 +109,12 @@ namespace MassEditor
 		
 		public void LoadMassInstancesFromJson(string data)
 		{
-			Debug.Log("------------------------------------------------------------------------------");
-			
 			var json = JsonConvert.DeserializeObject<Dictionary<string, object>>(data);
 			var deathGooData = json["DeathGooData"].ToString();
 			var json2 = JsonConvert.DeserializeObject<Dictionary<string, object>>(deathGooData);
 
 			foreach (var i in json2.Keys)
 			{
-				Debug.Log(i);
 				var json3 = JsonConvert.DeserializeObject<List<object>>(json2[i].ToString());
 				saveData[i] = new List<MassInstance.SaveData>();
 
@@ -131,7 +136,7 @@ namespace MassEditor
 			
 				foreach (var e in i.Value)
 				{
-					value += $"{JsonUtility.ToJson(e)}, ";
+					value += $"{JsonUtility.ToJson(e, true)}, ";
 				}
 			
 				value = value.TrimEnd(", ".ToCharArray());
@@ -139,6 +144,8 @@ namespace MassEditor
 			}
 			value = value.TrimEnd(", ".ToCharArray());
 			value += "}";
+
+			Debug.Log(value);
 			
 			data =  data.Insert(1, $"\"DeathGooData\": {value},");
 			

@@ -13,7 +13,7 @@ namespace MassEditor
 	[BepInPlugin(pluginGuid, pluginName, pluginVersion)]
 	public class Plugin : BaseUnityPlugin
 	{
-		private const string pluginGuid = "mazknight.whiteknuckle.DeathFloorEditor";
+		public const string pluginGuid = "mazknight.whiteknuckle.DeathFloorEditor";
 		public const string pluginName = "DeathFloorEditor";
 		public const string pluginVersion = "0.1.2";
 		
@@ -28,7 +28,7 @@ namespace MassEditor
 	[HarmonyPatch]
 	public class Transpilation
 	{
-
+		
 		[HarmonyPostfix]
 		[HarmonyPatch(typeof(CL_GameManager), "Awake")]
 		public static void CreateDeathGoo(CL_GameManager __instance)

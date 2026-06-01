@@ -422,7 +422,7 @@ namespace MassEditor
 		
 		[HarmonyTranspiler]
 		[HarmonyPatch(typeof(DEN_DeathFloor), "Update")]
-		public static IEnumerable<CodeInstruction> UpdateEditor(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+		private static IEnumerable<CodeInstruction> UpdateEditor(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
 		{
 			var matcher = new CodeMatcher(instructions, generator);
 			

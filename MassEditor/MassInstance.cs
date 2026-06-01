@@ -362,6 +362,20 @@ namespace MassEditor
 			Height += amount;
 		}
 		
+		private AnimationCurve _customMovementCurve;
+		private float _currentTimeOnCurve;
+		private float _completetionTime;
+		public void PushCustomMovement(AnimationCurve movementCurve)
+		{
+			_customMovementCurve = movementCurve;
+			_currentTimeOnCurve = 0;
+			
+			foreach (var i in movementCurve.keys)
+			{
+				if (i.time > _completetionTime) _completetionTime = i.time;
+			}
+		}
+		
 		#endregion
 		
 		#region Subclasses

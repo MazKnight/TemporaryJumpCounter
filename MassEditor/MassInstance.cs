@@ -367,10 +367,10 @@ namespace MassEditor
 		#region Subclasses
 		public class SpawnSettings
 		{
-			public List<M_Level> SpawnLevels = new List<M_Level>();
-			public List<M_Region> SpawnRegions = new List<M_Region>();
-			public List<M_Subregion> SpawnSubregions = new List<M_Subregion>();
-			public List<M_Gamemode> SpawnGamemodes = new List<M_Gamemode>();
+			public List<string> SpawnLevels = new List<string>();
+			public List<string> SpawnRegions = new List<string>();
+			public List<string> SpawnSubregions = new List<string>();
+			public List<string> SpawnGamemodes = new List<string>();
 
 			/// <summary>
 			/// If this is set to true, the program will leave the instance alone and let the event (or others) decide whether or not the mass should be spawned.
